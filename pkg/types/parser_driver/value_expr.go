@@ -251,8 +251,12 @@ type ParamMarkerExpr struct {
 }
 
 // Restore implements Node interface.
-func (*ParamMarkerExpr) Restore(ctx *format.RestoreCtx) error {
-	ctx.WritePlain("?")
+func (n *ParamMarkerExpr) Restore(ctx *format.RestoreCtx) error {
+	if ctx.Flags.HasInPostgresParamMarkerStyle() {
+		ctx.WritePlain(fmt.Sprintf("$%d", n.Order))
+	} else {
+		ctx.WritePlain("?")
+	}
 	return nil
 }
 
