@@ -197,7 +197,15 @@ func (n *Join) Restore(ctx *format.RestoreCtx) error {
 		if useCommaJoin {
 			ctx.WritePlain(", ")
 		} else {
-			ctx.WriteKeyWord(" JOIN ")
+			if ctx.Flags.HasPostgresJoinStyle() && n.Tp == CrossJoin {
+				if n.On == nil {
+					ctx.WriteKeyWord(" CROSS JOIN ")
+				} else {
+					ctx.WriteKeyWord(" INNER JOIN ")
+				}
+			} else {
+				ctx.WriteKeyWord(" JOIN ")
+			}
 		}
 	}
 	_, rightIsJoin := n.Right.(*Join)

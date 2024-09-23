@@ -240,6 +240,7 @@ const (
 	RestoreWithoutTableName
 	RestoreForNonPrepPlanCache
 	RestoreInPostgresParamMarkerStyle
+	RestorePostgresJoinStyle
 )
 
 const (
@@ -353,6 +354,10 @@ func (rf RestoreFlags) HasRestoreForNonPrepPlanCache() bool {
 // HasInPostgresParamMarkerStyle indicates whether Postgres style parameter marker should be used
 func (rf RestoreFlags) HasInPostgresParamMarkerStyle() bool {
 	return rf.has(RestoreInPostgresParamMarkerStyle)
+}
+
+func (rf RestoreFlags) HasPostgresJoinStyle() bool {
+	return rf.has(RestorePostgresJoinStyle)
 }
 
 // RestoreWriter is the interface for `Restore` to write.
